@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <title>Simple Map</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+
+        <link rel="stylesheet" href="css/styles.css">
+
+    </head>
+
+    <body>
+
+        <div id="map"></div>
+        <div id="sidebar">
+        </div>
+        <div id="toggle-sidebar"><span id="toggle-arrow">&gt;</span></div>
+
+        <script src="js/functions.js"></script>
+        <script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB_RY_IW-J2SdJP-zBpnVQDwV4HFR_ZRzk&libraries=places&callback=initMap"></script>
+        <script>
+            var map;
+            var bounds;
+            var service;
+
+            document.getElementById("toggle-sidebar").addEventListener("click", toggleSidebar);
+
+            function initMap() {
+                var beijing = new google.maps.LatLng(39.8634084, 116.3807053);
+                bounds = new google.maps.LatLngBounds();
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: new google.maps.LatLng(0, 0),
+                    zoom: 8
+                });
+                service = new google.maps.places.PlacesService(map);
+
+                ["temple of heaven", "xidan shopping centre", "temple restaurant beijing", "chocolate night club & restaurant", "beijing concert hall", "red theatre, beijing"].forEach(function(query){
+                    service.textSearch({
+                        location: map.center,
+                        radius: "500",
+                        query: query
+                    }, searchPlaces);
+                });
+
+                console.log(map.center.lat());
+            }
+        </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,6 @@
+@mixin rotateY($deg) {
+    -webkit-transform: rotateY(#{$deg}deg);
+    -moz-transform: rotateY(#{$deg}deg);
+    -ms-transform: rotateY(#{$deg}deg);
+    transform: rotateY(#{$deg}deg);
+}
