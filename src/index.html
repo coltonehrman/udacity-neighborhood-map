@@ -15,10 +15,15 @@
 
         <div id="map"></div>
         <div id="sidebar">
+            <input id="search-bar">
+            <ul>
+                <li>TEST</li>
+            </ul>
         </div>
         <div id="toggle-sidebar"><span id="toggle-arrow">&gt;</span></div>
 
         <script src="js/functions.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
         <script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB_RY_IW-J2SdJP-zBpnVQDwV4HFR_ZRzk&libraries=places&callback=initMap"></script>
         <script>
             var map;
@@ -47,6 +52,7 @@
                 console.log(map.center.lat());
             }
         </script>
+        <script src="js/app.js"></script>
 
     </body>
 
