@@ -15,9 +15,9 @@
 
         <div id="map"></div>
         <div id="sidebar">
-            <input data-bind="event: { keyup: searchInput }" id="search-bar">
+            <input data-bind="event: { keyup: searchInput }" id="search-bar" placeholder="Filter...">
             <ul data-bind="foreach: locations">
-                <li data-bind="text: $data, event: { mouseover: $root.locationMouseover, mouseout: $root.locationMouseout }"></li>
+                <li data-bind="text: $data, event: { mouseover: $root.locationMouseover, mouseout: $root.locationMouseout, click: $root.locationClick }"></li>
             </ul>
         </div>
         <div id="toggle-sidebar"><span id="toggle-arrow">&gt;</span></div>

@@ -9,11 +9,7 @@ function ViewModel(){
     });
 
     self.locationMouseover = function(location, event){
-
-        var target = locations.reduce(function(prev, curr){
-            return (curr.name == location) ? curr : prev;
-        });
-
+        var target = getLocation(location);
         target.marker.setAnimation(google.maps.Animation.BOUNCE);
     };
 
@@ -21,6 +17,22 @@ function ViewModel(){
         locations.forEach(function(location){
             location.marker.setAnimation(null);
         });
+    };
+
+    self.locationClick = function(location, event){
+        var target = getLocation(location);
+        var open = true;
+        var map = target.infoWindow.getMap();
+
+        if (map !== null && typeof map !== "undefined") {
+            open = false;
+        }
+
+        locations.forEach(function(location){
+            location.infoWindow.close();
+        });
+
+        if (open) target.infoWindow.open(map, target.marker);
     };
 
     self.searchInput = function(viewmodel, event) {
@@ -35,6 +47,12 @@ function ViewModel(){
             }
         });
     };
+
+    function getLocation(location) {
+        return locations.reduce(function(prev, curr){
+            return (curr.name == location) ? curr : prev;
+        });
+    }
 
 };
 

@@ -2,5 +2,22 @@
     -webkit-transform: rotateY(#{$deg}deg);
     -moz-transform: rotateY(#{$deg}deg);
     -ms-transform: rotateY(#{$deg}deg);
+    -o-transform: rotateY(#{$deg}deg);
     transform: rotateY(#{$deg}deg);
+}
+
+@mixin skewX($deg) {
+    -webkit-transform: skewX(#{$deg}deg);
+    -moz-transform: skewX(#{$deg}deg);
+    -ms-transform: skewX(#{$deg}deg);
+    -o-transform: skewX(#{$deg}deg);
+    transform: skewX(#{$deg}deg);
+}
+
+@mixin transition($prop) {
+    -webkit-transition: $prop;
+    -moz-transition: $prop;
+    -ms-transition: $prop;
+    -o-transition: $prop;
+    transition: $prop;
 }

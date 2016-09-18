@@ -2,10 +2,12 @@ function toggleSidebar(){
     var $map = $("#map");
     var $sidebar = $("#sidebar");
     var $toggleArrow = $("#toggle-arrow");
+    var $searchBar = $("#search-bar");
 
     $map.toggleClass("sidebar-opened");
     $sidebar.toggleClass("opened");
     $toggleArrow.toggleClass("rotateY-180");
+    $searchBar.focus();
 }
 
 function addLocations(results, status, index) {
