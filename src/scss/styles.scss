@@ -14,7 +14,7 @@ html, body {
 }
 
 .rotateY-180 {
-    @include rotateY(180);
+    @include rotateY(180deg);
 }
 
 #map {

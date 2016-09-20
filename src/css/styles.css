@@ -83,11 +83,11 @@ html, body {
         bottom: -5px;
         left: -3px;
         background: #fff;
-        -webkit-transform: skewX(-45degdeg);
-        -moz-transform: skewX(-45degdeg);
-        -ms-transform: skewX(-45degdeg);
-        -o-transform: skewX(-45degdeg);
-        transform: skewX(-45degdeg);
+        -webkit-transform: skewX(-45deg);
+        -moz-transform: skewX(-45deg);
+        -ms-transform: skewX(-45deg);
+        -o-transform: skewX(-45deg);
+        transform: skewX(-45deg);
         z-index: 1; }
 
 #toggle-sidebar {

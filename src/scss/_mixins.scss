@@ -1,17 +1,17 @@
 @mixin rotateY($deg) {
-    -webkit-transform: rotateY(#{$deg}deg);
-    -moz-transform: rotateY(#{$deg}deg);
-    -ms-transform: rotateY(#{$deg}deg);
-    -o-transform: rotateY(#{$deg}deg);
-    transform: rotateY(#{$deg}deg);
+    -webkit-transform: rotateY(#{$deg});
+    -moz-transform: rotateY(#{$deg});
+    -ms-transform: rotateY(#{$deg});
+    -o-transform: rotateY(#{$deg});
+    transform: rotateY(#{$deg});
 }
 
 @mixin skewX($deg) {
-    -webkit-transform: skewX(#{$deg}deg);
-    -moz-transform: skewX(#{$deg}deg);
-    -ms-transform: skewX(#{$deg}deg);
-    -o-transform: skewX(#{$deg}deg);
-    transform: skewX(#{$deg}deg);
+    -webkit-transform: skewX(#{$deg});
+    -moz-transform: skewX(#{$deg});
+    -ms-transform: skewX(#{$deg});
+    -o-transform: skewX(#{$deg});
+    transform: skewX(#{$deg});
 }
 
 @mixin transition($prop) {

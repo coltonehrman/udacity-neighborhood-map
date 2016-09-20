@@ -38,13 +38,19 @@ function ViewModel(){
     self.searchInput = function(viewmodel, event) {
         var searchText = event.target.value.toLowerCase();
         self.locations.removeAll();
+
         locations.forEach(function(location){
-            self.locations.push(location.name);
-        });
-        locations.forEach(function(location){
-            if (!location.name.includes(searchText)) {
-                self.locations.remove(location.name);
+
+            if (location.name.includes(searchText)) {
+                if (location.marker.map === null) {
+                    location.marker.setMap(map);
+                }
+                self.locations.push(location.name);
             }
+            else {
+                location.marker.setMap(null);
+            }
+
         });
     };
 
