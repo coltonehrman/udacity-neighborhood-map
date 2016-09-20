@@ -1,32 +1,26 @@
-var locations = [
+window.locations = [
     {
         name: "temple of heaven",
-        marker: null,
-        infoWindow: null
+        marker: null
     },
     {
         name: "xidan shopping centre",
-        marker: null,
-        infoWindow: null
+        marker: null
     },
     {
         name: "temple restaurant beijing",
-        marker: null,
-        infoWindow: null
+        marker: null
     },
     {
         name: "chocolate night club & restaurant",
-        marker: null,
-        infoWindow: null
+        marker: null
     },
     {
         name: "beijing concert hall",
-        marker: null,
-        infoWindow: null
+        marker: null
     },
     {
         name: "red theatre, beijing",
-        marker: null,
-        infoWindow: null
+        marker: null
     }
 ];

@@ -1,3 +1,40 @@
+function initMap() {
+
+    // Setup empty bounds object for later use when making map contain all locations
+    var bounds = window.bounds = new google.maps.LatLngBounds();
+
+    // Setup single infoWindow to be used for all locations
+    window.infoWindow = new google.maps.InfoWindow();
+
+    var map = window.map = new google.maps.Map($("#map")[0], {
+        center: new google.maps.LatLng(0, 0),
+        zoom: 8
+    });
+
+    var service = window.service = new google.maps.places.PlacesService(map);
+
+    window.locations.forEach(function(query, index){
+        // Closure function to maintain the correct index for each location
+        (function(index){
+
+            service.textSearch({
+
+                location: map.center,
+                query: query.name
+
+            }, function(results, status){
+
+                addLocation(results, status, index);
+
+            });
+
+        })(index);
+    });
+
+    // Setup event handlers
+    $("#toggle-sidebar").on("click", toggleSidebar);
+}
+
 function toggleSidebar(){
     var $map = $("#map");
     var $sidebar = $("#sidebar");
@@ -10,29 +47,38 @@ function toggleSidebar(){
     $searchBar.focus();
 }
 
-function addLocations(results, status, index) {
+function addLocation(results, status, index) {
 
+    var target = locations[index];
     var location = results[0];
     var photos = location.photos;
-    console.log(results[0]);
+
+    var bounds = window.bounds;
+    var map = window.map;
+    var infoWindow = window.infoWindow;
+
+    // Extend bounds object for each location
     bounds.extend(location.geometry.location);
 
-    locations[index].marker = new google.maps.Marker({
+    // Create the marker for each location object
+    target.marker = new google.maps.Marker({
         position: location.geometry.location,
         map: map,
         title: location.name
     });
 
-    locations[index].infoWindow = new google.maps.InfoWindow({
-
-        content: '<div class="location-details"><h1 class="location-name">' + locations[index].name + '</h1><div class="col-half"><strong>Address:</strong><address>' + location.formatted_address.split(", ").join("<br>") + '</address></div><div class="col-half"><strong>Hours:</strong></div></div>'
-    });
-
-    locations[index].marker.addListener("click", function(){
-        locations.forEach(function(location){
-            location.infoWindow.close();
-        });
-        locations[index].infoWindow.open(map, locations[index].marker);
+    // Add an event handler for location marker
+    target.marker.addListener("click", function(){
+        // If infoWindow content is the same as before (click on same location)
+        if (infoWindow.content === target.name) {
+            infoWindow.setContent(null);
+            infoWindow.close();
+        }
+        // click on different location
+        else {
+            infoWindow.setContent(target.name);
+            infoWindow.open(map, target.marker);
+        }
     });
 
     //service.getDetails({placeId: location.place_id}, getDetails);

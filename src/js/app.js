@@ -1,52 +1,63 @@
 function ViewModel(){
 
     var self = this;
+    var locations = window.locations;
+    var infoWindow = window.infoWindow;
 
-    self.locations = ko.observableArray();
+    this.locationsList = ko.observableArray();
 
+    // Populate locationList with window.locations data
     locations.forEach(function(location){
-        self.locations.push(location.name);
+        self.locationsList.push(location.name);
     });
 
-    self.locationMouseover = function(location, event){
+    // Mouseover event handler
+    this.locationMouseover = function(location, event){
         var target = getLocation(location);
         target.marker.setAnimation(google.maps.Animation.BOUNCE);
     };
 
-    self.locationMouseout = function(location, event){
+    // Mouseout event handler
+    this.locationMouseout = function(location, event){
         locations.forEach(function(location){
             location.marker.setAnimation(null);
         });
     };
 
-    self.locationClick = function(location, event){
+    // Click event handler
+    this.locationClick = function(location, event){
         var target = getLocation(location);
-        var open = true;
-        var map = target.infoWindow.getMap();
+        var infoWindow = window.infoWindow;
+        var map = infoWindow.getMap();
 
-        if (map !== null && typeof map !== "undefined") {
-            open = false;
+        // If infoWindow content is the same as before (click on same location)
+        if (infoWindow.content === target.name) {
+            infoWindow.setContent(null);
+            infoWindow.close();
         }
-
-        locations.forEach(function(location){
-            location.infoWindow.close();
-        });
-
-        if (open) target.infoWindow.open(map, target.marker);
+        // click on different location
+        else {
+            infoWindow.setContent(target.name);
+            infoWindow.open(map, target.marker);
+        }
     };
 
-    self.searchInput = function(viewmodel, event) {
+    // Filter search handler
+    this.searchInput = function(viewmodel, event) {
         var searchText = event.target.value.toLowerCase();
-        self.locations.removeAll();
+        // Remove everything from list to start from scratch
+        self.locationsList.removeAll();
 
         locations.forEach(function(location){
-
+            // If location is part of filter
             if (location.name.includes(searchText)) {
+                // If location marker is not on map
                 if (location.marker.map === null) {
                     location.marker.setMap(map);
                 }
-                self.locations.push(location.name);
+                self.locationsList.push(location.name);
             }
+            // If location isn't part of filter
             else {
                 location.marker.setMap(null);
             }
@@ -54,6 +65,7 @@ function ViewModel(){
         });
     };
 
+    // Returns window.location data according to locationList name
     function getLocation(location) {
         return locations.reduce(function(prev, curr){
             return (curr.name == location) ? curr : prev;
