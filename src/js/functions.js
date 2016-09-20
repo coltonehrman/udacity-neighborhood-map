@@ -63,27 +63,39 @@ function addLocation(results, status, index) {
     // Create the marker for each location object
     target.marker = new google.maps.Marker({
         position: location.geometry.location,
-        map: map,
-        title: location.name
+        map: map
     });
 
     // Add an event handler for location marker
     target.marker.addListener("click", function(){
-        // If infoWindow content is the same as before (click on same location)
-        if (infoWindow.content === target.name) {
-            infoWindow.setContent(null);
-            infoWindow.close();
-        }
-        // click on different location
-        else {
-            infoWindow.setContent(target.name);
-            infoWindow.open(map, target.marker);
-        }
+        locationClicked(target);
     });
 
     //service.getDetails({placeId: location.place_id}, getDetails);
 
     map.fitBounds(bounds);
+}
+
+function locationClicked(target) {
+    var infoWindow = window.infoWindow;
+    var map = infoWindow.getMap();
+    var locations = window.locations;
+
+    locations.forEach(function(location){
+        location.marker.setIcon();
+    });
+
+    // If infoWindow content is the same as before (click on same location)
+    if (infoWindow.content === target.name) {
+        infoWindow.setContent(null);
+        infoWindow.close();
+    }
+    // click on different location
+    else {
+        infoWindow.setContent(target.name);
+        infoWindow.open(map, target.marker);
+        target.marker.setIcon("http://cdn.leafletjs.com/leaflet-0.6.4/images/marker-icon.png");
+    }
 }
 
 function getDetails() {

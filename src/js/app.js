@@ -27,19 +27,7 @@ function ViewModel(){
     // Click event handler
     this.locationClick = function(location, event){
         var target = getLocation(location);
-        var infoWindow = window.infoWindow;
-        var map = infoWindow.getMap();
-
-        // If infoWindow content is the same as before (click on same location)
-        if (infoWindow.content === target.name) {
-            infoWindow.setContent(null);
-            infoWindow.close();
-        }
-        // click on different location
-        else {
-            infoWindow.setContent(target.name);
-            infoWindow.open(map, target.marker);
-        }
+        locationClicked(target);
     };
 
     // Filter search handler
