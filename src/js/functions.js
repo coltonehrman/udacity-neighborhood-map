@@ -33,6 +33,7 @@ function initMap() {
 
     // Setup event handlers
     $("#toggle-sidebar").on("click", toggleSidebar);
+    ko.applyBindings(new ViewModel());
 }
 
 function toggleSidebar(){
@@ -100,4 +101,8 @@ function locationClicked(target) {
 
 function getDetails() {
     console.log(arguments);
+}
+
+function mapError() {
+    alert("Google Map Error");
 }
