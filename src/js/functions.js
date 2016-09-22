@@ -58,6 +58,9 @@ function addLocation(results, status, index) {
     var map = window.map;
     var infoWindow = window.infoWindow;
 
+    var lat = location.geometry.location.lat();
+    var lng = location.geometry.location.lng();
+
     // Extend bounds object for each location
     bounds.extend(location.geometry.location);
 
@@ -72,7 +75,43 @@ function addLocation(results, status, index) {
         locationClicked(target);
     });
 
-    //service.getDetails({placeId: location.place_id}, getDetails);
+    var url = "https://api.foursquare.com/v2/venues/search/?" + $.param({
+        client_id: "TO52PZ1FSWGVFG0EEU3R1LUEXCNLHNQTTGNAKMDYA3JTITPM",
+        client_secret: "LDD0AVTHQDHICVA5KZRDRJGCFX4KA410SIHR0UWKK0FQCB2Z",
+        v: "20130815",
+        ll: lat + "," + lng,
+        query: location.name,
+        limit: "5"
+    });
+
+    var id;
+
+    console.log(url);
+
+    $.ajax(url, {
+        dataType: "jsonp",
+        success: function(data){
+            console.log(data.response.venues[0]);
+            id = data.response.venues[0].id;
+
+            getPhotos(id);
+        }
+    });
+
+    function getPhotos(id) {
+        url = "https://api.foursquare.com/v2/venues/" + id + "/photos/?" + $.param({
+            client_id: "TO52PZ1FSWGVFG0EEU3R1LUEXCNLHNQTTGNAKMDYA3JTITPM",
+            client_secret: "LDD0AVTHQDHICVA5KZRDRJGCFX4KA410SIHR0UWKK0FQCB2Z",
+            v: "20130815"
+        });
+
+        $.ajax(url, {
+            dataType: "jsonp",
+            success: function(data){
+                console.log(data);
+            }
+        });
+    }
 
     map.fitBounds(bounds);
 }
@@ -97,10 +136,6 @@ function locationClicked(target) {
         infoWindow.open(map, target.marker);
         target.marker.setIcon("http://cdn.leafletjs.com/leaflet-0.6.4/images/marker-icon.png");
     }
-}
-
-function getDetails() {
-    console.log(arguments);
 }
 
 function mapError() {
