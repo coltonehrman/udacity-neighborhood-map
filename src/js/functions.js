@@ -84,21 +84,15 @@ function addLocation(results, status, index) {
         limit: "5"
     });
 
-    var id;
-
-    console.log(url);
-
     $.ajax(url, {
         dataType: "jsonp",
         success: function(data){
-            console.log(data.response.venues[0]);
-            id = data.response.venues[0].id;
-
-            getPhotos(id);
+            var id = data.response.venues[0].id;
+            getPhotos(id, target);
         }
     });
 
-    function getPhotos(id) {
+    function getPhotos(id, model) {
         url = "https://api.foursquare.com/v2/venues/" + id + "/photos/?" + $.param({
             client_id: "TO52PZ1FSWGVFG0EEU3R1LUEXCNLHNQTTGNAKMDYA3JTITPM",
             client_secret: "LDD0AVTHQDHICVA5KZRDRJGCFX4KA410SIHR0UWKK0FQCB2Z",
@@ -108,7 +102,11 @@ function addLocation(results, status, index) {
         $.ajax(url, {
             dataType: "jsonp",
             success: function(data){
-                console.log(data);
+                var photos = data.response.photos.items;
+                photos.forEach(function(photo){
+                    var url = photo.prefix + "height100" + photo.suffix;
+                    model.photos.push(url);
+                });
             }
         });
     }
@@ -120,6 +118,7 @@ function locationClicked(target) {
     var infoWindow = window.infoWindow;
     var map = infoWindow.getMap();
     var locations = window.locations;
+    var content = $("<div></div>");
 
     locations.forEach(function(location){
         location.marker.setIcon();
@@ -132,7 +131,12 @@ function locationClicked(target) {
     }
     // click on different location
     else {
-        infoWindow.setContent(target.name);
+        target.photos.forEach(function(photo){
+            var img = $("<img>");
+            img.attr("src", photo);
+            content.append(img);
+        });
+        infoWindow.setContent(content.html());
         infoWindow.open(map, target.marker);
         target.marker.setIcon("http://cdn.leafletjs.com/leaflet-0.6.4/images/marker-icon.png");
     }
