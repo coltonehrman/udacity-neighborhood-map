@@ -24,7 +24,11 @@ function initMap() {
 
             }, function(results, status){
 
-                addLocation(results, status, index);
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    addLocation(results, status, index);
+                } else {
+                    console.log("Error: " + status);
+                }
 
             });
 
@@ -89,6 +93,9 @@ function addLocation(results, status, index) {
         success: function(data){
             var id = data.response.venues[0].id;
             getPhotos(id, target);
+        },
+        error: function(xhr, status, error) {
+            console.log("Error: " + status);
         }
     });
 
@@ -107,6 +114,9 @@ function addLocation(results, status, index) {
                     var url = photo.prefix + "height100" + photo.suffix;
                     model.photos.push(url);
                 });
+            },
+            error: function(xhr, status, error) {
+                console.log("Error: " + status);
             }
         });
     }
@@ -118,7 +128,7 @@ function locationClicked(target) {
     var infoWindow = window.infoWindow;
     var map = infoWindow.getMap();
     var locations = window.locations;
-    var content = $("<div></div>");
+    var content = "<div>";
 
     locations.forEach(function(location){
         location.marker.setIcon();
@@ -132,11 +142,11 @@ function locationClicked(target) {
     // click on different location
     else {
         target.photos.forEach(function(photo){
-            var img = $("<img>");
-            img.attr("src", photo);
-            content.append(img);
+            var img = "<img src='" + photo + "'>";
+            content += img;
         });
-        infoWindow.setContent(content.html());
+        content += "</div>";
+        infoWindow.setContent(content);
         infoWindow.open(map, target.marker);
         target.marker.setIcon("http://cdn.leafletjs.com/leaflet-0.6.4/images/marker-icon.png");
     }
