@@ -27,7 +27,7 @@ function initMap() {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                     addLocation(results, status, index);
                 } else {
-                    console.log("Error: " + status);
+                    alert("Error: " + status);
                 }
 
             });
@@ -95,7 +95,7 @@ function addLocation(results, status, index) {
             getPhotos(id, target);
         },
         error: function(xhr, status, error) {
-            console.log("Error: " + status);
+            alert("Error: " + status);
         }
     });
 
@@ -116,7 +116,7 @@ function addLocation(results, status, index) {
                 });
             },
             error: function(xhr, status, error) {
-                console.log("Error: " + status);
+                alert("Error: " + status);
             }
         });
     }
